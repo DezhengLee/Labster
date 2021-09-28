@@ -9,11 +9,11 @@ Currently, this program is based on 'pylatex' to generate a LaTeX report and 'sy
 ### Prerequisites
 
 *This project is written in python.* To use this program, your computer needs to have 'python 3.8' or higher version; alternatively, 'Anaconda 3' or higher version is also agreeable. Your computer should also have installed the following packages:
-'''
+
 - 'pylatex'
 - 'sympy'
 - 'numpy'.
-'''
+
 
 ### Using
 First you need to download all '.py' files in the same folder, then execute labster.py and follow the instruction in GUI. 
