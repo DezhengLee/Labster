@@ -5,7 +5,7 @@ from decimal import *
 
 def generateMeanTeX(var, length, mean, unit):
     """
-    :param var: (char)
+    :param var: (Char)
     :param length: (int)
     :param mean: (Decimal)
     :param unit: (String)
@@ -19,11 +19,11 @@ def generateMeanTeX(var, length, mean, unit):
 def generateSigmaTeX(var, length, mean, sigma, unit):
     """
 
-    :param var:
-    :param length:
-    :param mean:
-    :param sigma:
-    :param unit:
+    :param var: (Char)
+    :param length: (int)
+    :param mean: (Decimal)
+    :param sigma: (Decimal)
+    :param unit: (String)
     :return:
     """
     string = '\[' +r'\sigma = \sqrt{\frac{\sum_{i=1}^{' + str(
@@ -54,9 +54,9 @@ def generateUbTeX(function, ub, unit):
     """
 
     :param function: (String)
-    :param ub: Decimal
-    :param unit: String
-    :return: String
+    :param ub: (Decimal)
+    :param unit: (String)
+    :return: (String)
     """
     try:
         funString = latex(sympify(function))
@@ -70,12 +70,12 @@ def generateUbTeX(function, ub, unit):
 def generateUTeX(var, ua, ub, u, unit):
     """
 
-    :param var:
-    :param ua:
-    :param ub:
-    :param u:
-    :param unit:
-    :return:
+    :param var: (Char)
+    :param ua: (Decimal)
+    :param ub: (Decimal)
+    :param u: (Decimal)
+    :param unit: (String)
+    :return: (String)
     """
     String = '\[' +r'u(' + var + ')=\sqrt{u_A^2+u_B^2}=\sqrt{' + ua.to_eng_string() + '^2+' + ub.to_eng_string() + '^2}=' + u.to_eng_string() + '\ (' + unit + ')' + '\]'
     return String
@@ -86,27 +86,39 @@ def generateCompMeanTeX(wantedvar, function, CompMean, unit):
         funString = latex(sympify(function))
     except:
         funString = function
-    string = '\[' +r'\bar{' + wantedvar + '}' + funString + CompMean.to_eng_string() + '\ (' + unit + ')'+ '\]'
+    string = '\[' +r'\bar{' + wantedvar + '}=' + funString +"="+ CompMean.to_eng_string() + '\ (' + unit + ')'+ '\]'
     return string
 
 
-def generateAbsCompUTeX(var, cu, unit):
+def generateAbsCompUTeX(var, cu, unit, varlist):
     """
     :param var: Char
     :param cu: Decimal
     :return: String
     """
-    string = '\[' + r'u(' + var + r')=' + cu.to_eng_string() + '\ (' + unit + ')' + '\]'
+    InnerTerm = r'\left( \frac{\partial ' + var + r'}{\partial ' + varlist[0] + r'} \right)^2\cdot u^2(' + varlist[0] + ')'
+    for i in range(1, len(varlist)):
+        InnerTerm = InnerTerm + r'+\left( \frac{\partial ' + var + r'}{\partial ' + varlist[i] + r'} \right)^2\cdot u^2(' + varlist[i] + ')'
+    formula = r'\sqrt{' + InnerTerm + '}'
+
+    string = '\[' + r'u(' + var + r')=' + formula + '=' + cu.to_eng_string() + '\ (' + unit + ')' + '\]'
     return string
 
 
-def generateRelaCompUTex(var, cu):
+def generateRelaCompUTex(var, cu, varlist):
     """
     :param var: Char
     :param cu: Decimal
     :return: String
     """
-    string = '\[' +r'E_' + var + r'=\frac{u(' + var + r')}{\bar{' + var + '}}=' + cu.to_eng_string() + '\]'
+    InnerTerm = r'\left( \frac{\partial \ln ' + var + r'}{\partial ' + varlist[0] + r'} \right)^2\cdot u^2(' + varlist[
+        0] + ')'
+    for i in range(1, len(varlist)):
+        InnerTerm = InnerTerm + r'+\left( \frac{\partial \ln ' + var + r'}{\partial ' + varlist[
+            i] + r'} \right)^2\cdot u^2(' + varlist[i] + ')'
+    formula = r'\sqrt{' + InnerTerm + '}'
+
+    string = '\[' +r'E_' + var + r'=\frac{u(' + var + r')}{\bar{' + var + '}}='+ formula + '=' + cu.to_eng_string() + '\]'
     return string
 
 
@@ -135,3 +147,9 @@ def generateFinalResult(var, mean, u, unit, P):
     """
     string = '\[' + var + r'=(' + mean.to_eng_string() + r'\pm' + u.to_eng_string() + ')' + r'\ ' + unit + r'\ (P=' + str(P) + ')\]'
     return string
+
+varlist=['a', 'b', 'c']
+var='T'
+cu=Decimal("3.1")
+unit = "cm"
+print(generateAbsCompUTeX(var, cu, unit, varlist))
