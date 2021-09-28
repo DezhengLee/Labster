@@ -101,7 +101,7 @@ def checkeff(datamat):
         except KeyError:
             counter[str(digits(num))] = 1
     if len(counter) == 1:
-        # print("No data need to be fixed.")
+        print("No data need to be fixed.")
         return datamat
     else:
         tempkeyarray = []
@@ -114,7 +114,7 @@ def checkeff(datamat):
         for i in range(0, length):
             datamat[i] = datamat[i].quantize(Decimal(10) ** ((-1) * maxdigit))
 
-        # print("Data has been fixed")
+        print("Data has been fixed")
         return datamat
 
 
@@ -309,14 +309,17 @@ def findUa(array, n, P, perceMod=False, roundornot=True):
 
     UaString = Ua.to_eng_string()
     intPart = UaString.split('.')[0]
-    if not len(intPart) == len(UaString):
+    if not len(intPart) == len(UaString): # the number is not a int
         decimalflag = True
         decimalPart = UaString.split('.')[1]  # Ua cannot be zero
         digiteff = 0
         if intPart == '0':
-            while decimalPart[digiteff] == '0':
-                digiteff += 1
-            digiteff += 2
+            try:
+                while decimalPart[digiteff] == '0': # find the second effective digits
+                    digiteff += 1
+                digiteff += 2
+            except IndexError: # the decimal is also equal to 0 (ua is 0.000)
+                digiteff = 1
         else:
             digiteff = -len(intPart) + 2
     elif UaString == '0':
@@ -365,6 +368,7 @@ def findU(Ua, Ub, roundornot=True):
 
 def roundU(u):
     """
+    Give a uncertainty U, round this U to
     :param u: Decimal
     :return: Decimal
     """
