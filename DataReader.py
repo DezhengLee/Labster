@@ -1,5 +1,22 @@
 import numpy as np
 from csv import reader
+from decimal import *
+
+
+def SDM(datalist):
+    """
+    逐差法
+    :param datalist:
+    :return:
+    """
+    length = len(datalist)
+    resultlist = []
+    halfLen = int(length/2)
+    for i in range(0, halfLen):
+        resultlist.append((Decimal(datalist[i+halfLen]) - Decimal(datalist[i])).to_eng_string())
+    return resultlist
+
+
 class DataReader:
     def __init__(self, filename):
         self.filename = filename
@@ -24,7 +41,9 @@ class DataReader:
             tempunitlist = []
             tempdatalist = []
             tempUblist = []
+            tempSDMflag = []
             tempUbFunclist = []
+            tempfunctionlist = []
             for item in experimentdata:
                 tempvarlist.append(item[0])
                 tempunitlist.append(item[1])
@@ -33,12 +52,23 @@ class DataReader:
                 for j in range(3, len(item)):
                     if j == 3:
                         tempUblist.append(item[j])
+                    elif j == 4:
+                        tempSDMflag.append(item[j])
+                    elif j == 5:
+                        tempfunctionlist.append(item[j])
                     else:
                         if not item[j] == '':
                             temptempdata.append(item[j])
                 tempdatalist.append(temptempdata)
             self.varList = tempvarlist
             self.unitList = tempunitlist
-            self.dataList = tempdatalist
+
             self.UbList = tempUblist
             self.UbFuncList = tempUbFunclist
+            self.SDMflagList = tempSDMflag
+            self.TempFunctionList = tempfunctionlist
+
+            for i in range(0, len(tempSDMflag)):
+                if tempSDMflag[i] == 'Y':
+                    tempdatalist[i] = SDM(tempdatalist[i])
+            self.dataList = tempdatalist
