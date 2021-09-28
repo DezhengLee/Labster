@@ -18,7 +18,11 @@ Currently, this program is based on 'pylatex' to generate a LaTeX report and 'sy
 ### Using
 First you need to download all '.py' files in the same folder, then execute labster.py and follow the instruction in GUI. 
 You need to check if the final formate of report is what your university required.
-The template 'database.csv' can be used to generate a template report and so you can check if the rounding method is used in your university. In practise, you can add as much as data rows you need. For the function, you need to write a function as a string. For example, if the function for the final is $$\frac{4m}{\pi d^2 h}$$ then you need to write 
+The template 'database.csv' can be used to generate a template report and so you can check if the rounding method is used in your university. In practise, you can add as much as data rows you need. For the function, you need to write a function as a string. For example, if the function for the final is 
+$$
+\frac{4m}{\pi d^2 h}
+$$ 
+then you need to write 
 '''
 (4*m)/(pi*(d**2)*h)
 '''
