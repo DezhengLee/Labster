@@ -7,7 +7,7 @@ import sys
 
 window = tk.Tk()
 
-window.title('Labster V0.0.1')
+window.title('Labster V0.0.2')
 
 screenwidth = window.winfo_screenwidth()
 screenheight = window.winfo_screenheight()
@@ -46,3 +46,4 @@ btn = tk.Button(window, text='Generate', command=act, width=12, height=3, font=(
 btn.place(x=120, y=200)
 
 window.mainloop()
+
