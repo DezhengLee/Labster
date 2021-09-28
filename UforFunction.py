@@ -5,6 +5,7 @@ from decimal import *
 
 def findAbsFuncU(function, U, variable, means, roundornot=True):
     """
+    This function is used to find the absolut compound U, as well as the values of U of temp variables
     :param function: (String) the formula
     :param U: (Decimal dic, keys: variable) ceiled
     :param variable: (char list) [x,y,z,...]
@@ -58,10 +59,10 @@ def findRelaFuncU(function, U, variable, means, roundornot=True):
 
 def findCompMean(function, variable, means):
     """
-
-    :param function:
-    :param variable:
-    :param means:
+    This function is used to find the final compound mean, as well as the value of temp variables
+    :param function:(string)
+    :param variable:(list/set)
+    :param means: (Dic)
     :return:
     """
     values = [] # in float
